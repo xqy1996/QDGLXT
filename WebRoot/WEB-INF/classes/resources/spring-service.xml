@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        ">
+    <!-- 1.开启service扫描包 -->
+    <context:component-scan base-package="com.sys.service"></context:component-scan>
+	<!-- 2.事务控制 -->
+   <tx:advice id="myAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED"/><!-- 可修改 -->
+			<tx:method name="del*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="*" read-only="true"/><!-- 只读 -->
+		</tx:attributes>   		
+   </tx:advice>
+   <!-- 3.AOP建议 -->
+   <aop:config>
+   		<aop:pointcut id="service" expression="execution(* com.sys.service.*.*(..))"/>
+   		<aop:advisor advice-ref="myAdvice" pointcut-ref="service"/>
+   </aop:config>
+   	<!-- 4.开启AOP建议 -->
+   	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+</beans>        

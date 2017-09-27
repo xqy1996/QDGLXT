@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 1.namespace自动匹配dao层的接口
+	 2.id匹配接口中的方法名
+ -->
+<mapper namespace="com.sys.dao.TeamDao"><!-- 唯一标识符 -->
+    <insert id="addteam">
+	   INSERT INTO team (team_name,team_password,team_phone) VALUES (#{0},#{1},#{2})
+	</insert>
+	
+	<select id="login" resultType="com.sys.model.Team">
+	   select * from team where team_phone=#{0} and team_password =#{1}
+	</select>
+	
+    <select id="SelectPlayer" resultType="com.sys.model.Player">
+	   select * from player where team_id=#{team_id}
+	</select>
+	
+    <select id="Selectmatch" resultType="java.util.Map">
+	   select tm1.team_name name1,tm2.team_name name2,cr_address,cr_time,cr_score1,cr_score2 from team tm1,team tm2,competitionrecord where (tm1.team_id=cr_team1 AND tm2.team_id=cr_team2) AND (tm1.team_id=#{team_id} OR tm2.team_id=#{team_id})
+	   
+	</select>
+</mapper>
+	

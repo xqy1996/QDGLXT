@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 1.namespace自动匹配dao层的接口
+	 2.id匹配接口中的方法名
+ -->
+<mapper namespace="com.sys.dao.playerDao"><!-- 唯一标识符 -->
+   <insert id="addPlayer"  parameterType="com.sys.model.Player"  useGeneratedKeys="true" keyProperty="id">
+   INSERT INTO `player` (`name`, `date`, `height`, `weight`, `playTime`, `rebs`, `asts`, `spg`, `bpg`, `tos`, `pts`, `imgUrl`, `position`,team_id,player_first) VALUES (#{name}, #{date}, #{height}, #{weight}, #{playTime}, #{rebs}, #{asts}, #{spg}, #{bpg}, #{tos}, #{pts}, #{imgUrl}, #{position},#{team_id},#{player_first})
+   </insert>
+	
+	<select id="getAllPlayer" resultType="com.sys.model.Player">
+	select `id`, `name`, `date`, `height`, `weight`, `playTime`, `rebs`, `asts`, `spg`, `bpg`, `tos`, `pts`, `imgUrl`, `position`,team_id from player where team_id=#{0}
+	</select>
+	
+	<delete id="deletPlayer">
+	DELETE FROM player WHERE id = #{0}
+	</delete>
+</mapper>
+	

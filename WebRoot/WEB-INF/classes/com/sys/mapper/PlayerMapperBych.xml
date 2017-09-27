@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 1.namespace自动匹配dao层的接口
+	 2.id匹配接口中的方法名
+ -->
+<mapper namespace="com.sys.dao.PlayerDaoBych"><!-- 唯一标识符 -->
+	<select id="getPlayerById" resultType="com.sys.model.Player">
+		 SELECT * from player;
+	</select>
+	<select id="getPlayerByPID" resultType="com.sys.model.Player">
+		select *from player where id=#{0};
+	</select>	
+	<update id="updatePlayerByPID">
+		update player set player_first=#{1} where id=#{0};
+	</update>
+</mapper>
+	

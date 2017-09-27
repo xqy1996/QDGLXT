@@ -1,0 +1,85 @@
+
+球员表 player
+player_id 球员ID 主键,自增
+player_name 姓名
+player_birthday 生日
+player_rebs 篮板
+player_height 身高
+player_weight 体重
+player_bpg 盖帽
+player_tos 失误
+player_playTime 球龄 
+player_spg 抢断
+player_asts 助攻
+player_pts 得分
+player_imageUrl
+player_first 首发
+team_id 所属球队 外键
+
+
+球队表 team
+team_id 球队ID 主键,自增
+team_name 球队名字
+team_adress 地址
+team_phone 经历电话
+team_contents 宣言
+team_password 密码
+team_mark 队标
+team_funds 资金
+
+赛程表 schedule
+schedule_id 赛程ID,自增
+schedule_team1 一队 team_id外键
+schedule_team2 二队 team_id外键
+schedule_adress 比赛地点
+schedule_time 赛程时间
+
+《数据库脚本》
+-- 创建数据库
+CREATE DATABASE QYGLXT
+
+-- 创建球队表
+CREATE TABLE team(
+	team_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,	-- 球队ID 主键,自增
+	team_name VARCHAR(20) NOT NULL,				-- 球队名字
+	team_adress VARCHAR(20),				-- 地址
+	team_phone VARCHAR(20),					-- 经历电话
+	team_contents VARCHAR(20),				-- 宣言
+	team_password VARCHAR(20),				-- 密码
+	team_mark VARCHAR(20),					-- 队标
+	team_funds VARCHAR(20)					-- 资金
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+-- 创建球员表
+CREATE TABLE player(
+	player_id  INT AUTO_INCREMENT NOT NULL PRIMARY KEY,	-- 球员ID 主键,自增
+	player_name VARCHAR(20) NOT NULL ,			-- 姓名
+	
+        player_birthday VARCHAR(20),				-- 生日
+	player_rebs VARCHAR(20),				-- 篮板
+	player_height VARCHAR(20),				-- 身高
+	player_weight VARCHAR(20),				-- 体重
+	player_bpg VARCHAR(20),					-- 盖帽
+	player_tos VARCHAR(20),					-- 失误
+	player_playtime VARCHAR(20),				-- 球龄 
+	player_spg VARCHAR(20),					-- 抢断
+	player_asts VARCHAR(20),				-- 助攻
+	player_pts VARCHAR(20),					-- 得分
+	player_imgUrl VARCHAR(20),				-- 图片
+	player_isFirst VARCHAR(20),				-- 是否首发
+	team_id INT,						-- 所属球队 外键
+	FOREIGN KEY(team_id) REFERENCES team(team_id)	
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+-- 创建赛程表
+CREATE TABLE SCHEDULE(
+	schedule_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,	-- 赛程ID,主键,自增
+	schedule_team1 INT,					-- 一队 team_id外键
+	schedule_team2 INT, 					-- 二队 team_id外键
+	schedule_adress VARCHAR(20),				-- 比赛地点
+	schedule_time VARCHAR(20),				-- 赛程时间
+	FOREIGN KEY(schedule_team1) REFERENCES team(team_id),
+	FOREIGN KEY(schedule_team2) REFERENCES team(team_id)	
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+

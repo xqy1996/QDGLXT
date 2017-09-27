@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.dao.CompetitionDao"><!-- 唯一标识符 -->
+	<select id="getSchedule" resultType="java.util.Map" parameterType="com.sys.model.CompetitionRecord">
+		SELECT distinct t1.cr_id,t1.cr_time,t1.cr_address,t1.cr_team1,t2.team_name team1_name,t1.cr_score1,t1.cr_team2,t3.team_name team2_name,t1.cr_score2,t1.cr_status FROM competitionrecord t1,team t2,team t3
+	<where>
+	    (cr_team1=#{team_id} OR cr_team2=#{team_id})  AND (t1.cr_team1=t2.team_id )AND(t1.cr_team2=t3.team_id)
+		<if test="cr_id != null and cr_id != 0">and cr_id=#{cr_id}</if>
+		<if test="cr_time != null">and cr_time=#{cr_time}</if>
+		<if test="cr_address != null">and cr_address=#{cr_address}</if>
+		<if test="cr_status !=3">and cr_status=#{cr_status}</if>
+	</where>
+	</select>
+	<select id="getDetailed" resultType="java.util.Map">
+		SELECT t1.ds_id,t1.cr_id,t1.player_id,t1.bpg_Record,t1.spg_Record,t1.asts_Record,t1.pts_Record,t1.tos_Record,t1.starter,t1.ds_date,t2.name player_name,t3.team_name FROM detailedscore t1,player t2,team t3 
+WHERE t1.cr_id=#{cid} AND t3.team_id=#{tid} AND t1.player_id=t2.id AND t2.team_id=t3.team_id
+	</select>
+	
+	<select id="getTeamByName" resultType="com.sys.model.Team">
+	SELECT * from team WHERE team.team_name= #{0}
+	</select>
+	
+	<select id="getComRecord" resultType="com.sys.model.CompetitionRecord">
+	select * from competitionrecord where cr_team1=#{0} and cr_team2=#{1}
+	</select>
+	
+	<select id="getdScores" resultType="com.sys.model.AvgScore">
+	SELECT  player_id ,avg( bpg_Record) bpg ,avg(spg_Record) spg,avg(pts_Record) pts ,avg( tos_Record) tos  FROM detailedscore WHERE cr_id in 
+	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                   #{item}
+               </foreach>GROUP BY player_id
+	</select>
+	
+	<select id="getPlayerId" resultType="com.sys.model.Player">
+	SELECT * FROM player WHERE id=#{0};
+	</select>
+</mapper>

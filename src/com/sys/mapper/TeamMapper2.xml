@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 1.namespace自动匹配dao层的接口
+	 2.id匹配接口中的方法名
+ -->
+<mapper namespace="com.sys.dao.TeamDao"><!-- 唯一标识符 -->
+	<!-- <resultMap type="com.sys.model.Khmc" id="khmc">
+		<id property="id" column="khmc_id"></id>
+		<result property="name" column="khmc_name"/>
+	</resultMap>
+	<select id="getKhmcs" resultMap="khmc">
+		select khmc_id,khmc_name from khmc;
+	</select> -->
+	<!-- 2通过ID查客户的工程 -->
+	<select id="getTeamDaoById" resultType="com.sys.model.Team">
+	  SELECT * from team where team_id=#{team_id};
+	</select >
+	
+	<select id="getById" resultType="com.sys.model.Team">
+		 SELECT * from team where team_id=#{team_id};
+	</select>
+	<update id="updateTeam">
+	UPDATE team set team_name='湖人4' WHERE team_id=#{team.getTeam_id()};
+	<!-- UPDATE team set team_name=#{name},team_adress=#{address},team_contents=#{contents} WHERE team_id=#{id}; -->
+	</update>
+	
+</mapper>
+	
